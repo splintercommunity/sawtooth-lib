@@ -1,3 +1,4 @@
+# Copyright 2024 Bitwise IO, Inc.
 # Copyright 2019 Cargill Incorporated
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +21,7 @@ edition = "2018"
 license = "Apache-2.0"
 readme = "../README.md"
 description = """\
-    Hyperledger Sawtooth is an enterprise blockchain platform for building \
+    Sawtooth is an enterprise blockchain platform for building \
     distributed ledger applications and networks.
 """
 

@@ -14,8 +14,8 @@
 
 //! Sawtooth Compatibility Layer
 //!
-//! This module provides a compatibility layer for use with [Hyperledger
-//! Sawtooth](https://sawtooth.hyperledger.org) transaction families.  It provides adapters to
+//! This module provides a compatibility layer for use with
+//! [Sawtooth](https://sawtooth.splinter.dev/) transaction families.  It provides adapters to
 //! allow the use of existing Sawtooth transaction families, implemented with the [Rust
 //! SDK](https://crates.io/crates/sawtooth-sdk), in an application built with Transact.
 //!
@@ -39,7 +39,7 @@ use crate::transact::protocol::transaction::{TransactionHeader, TransactionPair}
 /// engines can then be compiled in to an application using Transact.
 ///
 /// For example, the Sawtooth transaction handler for the [XO Transaction
-/// Family](https://sawtooth.hyperledger.org/docs/core/releases/latest/transaction_family_specifications/xo_transaction_family.html)
+/// Family](https://sawtooth.splinter.dev/docs/1.2/transaction_family_specifications/xo_transaction_family.html)
 /// can be adapted as follows:
 ///
 ///     # use sawtooth_xo::handler::XoTransactionHandler;
