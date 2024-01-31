@@ -1,3 +1,4 @@
+// Copyright 2024 Bitwise IO, Inc.
 // Copyright 2018 Cargill Incorporated
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +14,8 @@
 // limitations under the License.
 
 //! Provides a Sawtooth Transaction Handler for executing Sabre transactions.
+
+use std::fmt::Write;
 
 use sha2::{Digest, Sha512};
 
@@ -240,10 +243,13 @@ fn create_contract(
 
     state.set_contract(name, version, contract)?;
 
-    let contract_sha512 = Sha512::digest(payload.contract())
-        .iter()
-        .map(|b| format!("{:02x}", b))
-        .collect::<String>();
+    let contract_sha512 =
+        Sha512::digest(payload.contract())
+            .iter()
+            .fold(String::new(), |mut output, b| {
+                let _ = write!(output, "{b:02X}");
+                output
+            });
 
     let contract_registry_version = VersionBuilder::new()
         .with_version(version.into())
