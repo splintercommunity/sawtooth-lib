@@ -1,4 +1,5 @@
 /*
+ * Copyright 2024 Bitwise IO, Inc.
  * Copyright 2018 Intel Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -244,7 +245,7 @@ impl ChainControllerState {
             chain_head.block(),
             new_block.block()
         );
-        if let Some(prior_heads_successor) = result.new_chain.get(0) {
+        if let Some(prior_heads_successor) = result.new_chain.first() {
             if prior_heads_successor.header().previous_block_id()
                 != chain_head.block().header_signature()
             {

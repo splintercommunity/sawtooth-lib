@@ -1,4 +1,5 @@
 /*
+ * Copyright 2024 Bitwise IO, Inc.
  * Copyright 2021 Cargill Incorporated
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -187,7 +188,7 @@ where
     }
 
     let parent = addition_changelog
-        .get(0)
+        .first()
         .and_then(|entry| entry.parent_state_root.clone());
 
     let change_additions = addition_changelog

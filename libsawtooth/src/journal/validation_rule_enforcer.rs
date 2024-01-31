@@ -1,4 +1,5 @@
 /*
+ * Copyright 2024 Bitwise IO, Inc.
  * Copyright 2018 Intel Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -264,7 +265,7 @@ impl FromStr for Rule {
             // Example: "NofX:2,intkey" means only 2 intkey transactions are allowed per block.
             "NofX" => {
                 let limit = rule_args
-                    .get(0)
+                    .first()
                     .ok_or_else(|| RuleParseError("found NofX rule with no arguments".into()))?
                     .trim()
                     .parse()
@@ -291,7 +292,7 @@ impl FromStr for Rule {
             // transaction.
             "XatY" => {
                 let family_name = rule_args
-                    .get(0)
+                    .first()
                     .ok_or_else(|| RuleParseError("found XatY rule with no arguments".into()))?
                     .trim()
                     .to_string();

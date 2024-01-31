@@ -1,4 +1,5 @@
 /*
+ * Copyright 2024 Bitwise IO, Inc.
  * Copyright 2021 Cargill Incorporated
  * Copyright 2017 Intel Corporation
  *
@@ -150,7 +151,7 @@ impl<'a> Iterator for BatchListFeeder<'a> {
             Err(err) => return Some(Err(BatchingError::InternalError(err))),
         };
 
-        batches.get(0).map(|b| Ok(b.clone()))
+        batches.first().map(|b| Ok(b.clone()))
     }
 }
 
