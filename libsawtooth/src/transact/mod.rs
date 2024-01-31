@@ -71,7 +71,6 @@
 //! Transact provides optional support for smart contract engines implemented for Sawtooth through
 //! the `sawtooth-compat` feature.
 
-
 #[cfg(feature = "transact-context")]
 mod collections;
 #[cfg(feature = "transact-context")]

@@ -1,3 +1,4 @@
+// Copyright 2024 Bitwise IO, Inc.
 // Copyright 2018 Cargill Incorporated
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,6 +12,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+use std::fmt::Write;
 
 use sha2::{Digest, Sha512};
 
@@ -28,8 +31,10 @@ const CONTRACT_PREFIX: &str = "00ec02";
 pub fn hash(to_hash: &str, num: usize) -> Result<String, ApplyError> {
     let temp = Sha512::digest(to_hash.as_bytes())
         .iter()
-        .map(|b| format!("{:02x}", b))
-        .collect::<String>();
+        .fold(String::new(), |mut output, b| {
+            let _ = write!(output, "{b:02X}");
+            output
+        });
     let hash = match temp.get(..num) {
         Some(x) => x,
         None => {

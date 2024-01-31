@@ -1,3 +1,4 @@
+// Copyright 2024 Bitwise IO, Inc.
 // Copyright 2021 Cargill Incorporated
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,4 +17,5 @@ mod error;
 #[cfg(feature = "diesel")]
 pub(crate) mod pool;
 
+#[cfg(feature = "artifact")]
 pub use error::StoreError;
