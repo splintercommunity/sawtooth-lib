@@ -18,10 +18,13 @@
 //! Provides the list transaction receipt since operation for `DieselReceiptStore`
 
 use std::collections::HashMap;
+use std::convert::TryFrom;
 
 use diesel::{prelude::*, sql_types::Text};
 
 use crate::error::InvalidStateError;
+use crate::error::InternalError;
+
 use crate::transact::protocol::receipt::{
     Event, StateChange, TransactionReceipt, TransactionResult,
 };
@@ -65,9 +68,37 @@ where
             if let Some(service_id) = &self.service_id {
                 query = query.filter(transaction_receipt::service_id.eq(service_id));
             };
-            let transaction_receipt_models: Vec<TransactionReceiptModel> = match id {
-                Some(id) => query
-                    .filter(transaction_receipt::transaction_id.gt(id))
+
+            let mut query2 = transaction_receipt::table.into_boxed();
+            if let Some(service_id) = &self.service_id {
+                query2 = query2.filter(transaction_receipt::service_id.eq(service_id));
+            };
+
+            let txn_receipts: Vec<TransactionReceiptModel> = match id {
+                Some(ref id) => query2
+                    .filter(transaction_receipt::transaction_id.eq(id))
+                    .select(transaction_receipt::all_columns)
+                    .load(self.conn)?,
+                None => Vec::new(),
+            };
+
+            let idx = match id {
+                Some(_) => txn_receipts[0].idx,
+                None => 0
+            };
+
+            let index = match i64::try_from(idx) {
+                Ok(ind) => Some(ind),
+                Err(_) => {
+                    return Err(ReceiptStoreError::InternalError(InternalError::with_message(
+                        "Unable to convert index into i64".to_string(),
+                    )));
+                }
+            };
+
+            let transaction_receipt_models: Vec<TransactionReceiptModel> = match index {
+                Some(index) => query
+                    .filter(transaction_receipt::idx.gt(index))
                     .select(transaction_receipt::all_columns)
                     .load(self.conn)?,
                 None => query
